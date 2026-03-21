@@ -1,0 +1,68 @@
+import { Product } from "../types/product";
+
+export const mockProducts: Product[] = [
+  {
+    id: 1,
+    name: "Jean Slim",
+    description: "Jean slim bleu",
+    price: 59.99,
+    image_url: "https://picsum.photos/200/300?random=1",
+    category: "Jeans",
+  },
+  {
+    id: 2,
+    name: "T-shirt blanc",
+    description: "T-shirt coton",
+    price: 19.99,
+    image_url: "https://picsum.photos/200/300?random=2",
+    category: "T-shirts",
+  },
+  {
+    id: 3,
+    name: "Sneakers Air",
+    description: "Sneakers blanches",
+    price: 99.99,
+    image_url: "https://picsum.photos/200/300?random=3",
+    category: "Sneakers",
+  },
+  {
+    id: 4,
+    name: "Costume noir",
+    description: "Costume slim fit",
+    price: 199.99,
+    image_url: "https://picsum.photos/200/300?random=4",
+    category: "Suits",
+  },
+  {
+    id: 5,
+    name: "Jean Baggy",
+    description: "Jean baggy gris",
+    price: 69.99,
+    image_url: "https://picsum.photos/200/300?random=5",
+    category: "Jeans",
+  },
+  {
+    id: 6,
+    name: "T-shirt noir",
+    description: "T-shirt oversize",
+    price: 24.99,
+    image_url: "https://picsum.photos/200/300?random=6",
+    category: "T-shirts",
+  },
+  {
+    id: 7,
+    name: "Sneakers Runner",
+    description: "Running shoes",
+    price: 129.99,
+    image_url: "https://picsum.photos/200/300?random=7",
+    category: "Sneakers",
+  },
+  {
+    id: 8,
+    name: "Costume gris",
+    description: "Costume cérémonie",
+    price: 249.99,
+    image_url: "https://picsum.photos/200/300?random=8",
+    category: "Suits",
+  },
+];

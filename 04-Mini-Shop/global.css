@@ -1,0 +1,30 @@
+@import "tailwindcss";
+@import "uniwind";
+@import "heroui-native/styles";
+@source './node_modules/heroui-native/lib';
+
+@theme inline {
+  --font-normal: "SpaceGrotesk-Regular";
+  --font-medium: "SpaceGrotesk-Medium";
+  --font-semibold: "SpaceGrotesk-SemiBold";
+  --font-bold: "SpaceGrotesk-Bold";
+}
+
+@layer theme {
+  :root {
+    @variant light {
+      --color-tint: oklch(0.7193 0.182 155.22);
+      --color-primary: oklch(0.7193 0.182 155.22);
+      --accent: oklch(0.7193 0.182 155.22);
+    }
+    @variant dark {
+      --color-tint: oklch(0.7193 0.182 155.22);
+      --color-primary: oklch(0.7193 0.182 155.22);
+      --accent: oklch(0.7193 0.182 155.22);
+    }
+  }
+}
+
+.surface-square {
+  border-radius: 0.1rem;
+}
