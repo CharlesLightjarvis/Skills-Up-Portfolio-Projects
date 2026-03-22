@@ -32,14 +32,25 @@ A fully-featured mobile shopping app built with Expo and React Native, consuming
 - Auto-clears cart on confirmation
 - Returns to home with a clean navigation stack
 
+**Search**
+
+- Native iOS search bar integrated in the header
+- Filter products by title and description in real time
+- Debounced input to avoid unnecessary renders
+- Recent searches saved persistently across sessions
+- Recent searches store the selected product (title + price), not the raw query
+- Tap a recent search to go directly to the product
+- Empty state with icon and instructions when no searches yet
+- No results state with contextual message
+
 ---
 
 ## Tech Stack
 
 - **Expo Router** — file-based navigation with native stack & modals
 - **TanStack Query** — server state management, caching & auto-refetch
-- **Zustand** — lightweight client state for the cart
-- **expo-secure-store** — persistent cart storage across sessions
+- **Zustand** — lightweight client state for the cart and recent searches
+- **expo-secure-store** — persistent storage for cart and recent searches
 - **HeroUI Native** — component library (Button, TagGroup, SkeletonGroup, Card...)
 - **NativeWind** — Tailwind CSS utility classes for React Native
 - **Axios** — HTTP client with response interceptor for API error handling
@@ -57,8 +68,10 @@ Feature-based folder structure with a clear separation between services, hooks, 
 │   │   ├── 📁 (home)
 │   │   │   ├── 📄 _layout.tsx
 │   │   │   └── 📄 index.tsx
-│   │   ├── 📄 _layout.tsx
-│   │   └── 📄 search.tsx
+│   │   ├── 📁 search
+│   │   │   ├── 📄 _layout.tsx
+│   │   │   └── 📄 index.tsx
+│   │   └── 📄 _layout.tsx
 │   ├── 📁 cart
 │   │   ├── 📄 _layout.tsx
 │   │   └── 📄 index.tsx
@@ -96,27 +109,35 @@ Feature-based folder structure with a clear separation between services, hooks, 
 │   │   │   └── 📄 category-service.ts
 │   │   └── 📁 types
 │   │       └── 📄 category.ts
-│   └── 📁 product
+│   ├── 📁 product
+│   │   ├── 📁 components
+│   │   │   ├── 📄 product-card.tsx
+│   │   │   ├── 📄 product-detail-error.tsx
+│   │   │   ├── 📄 product-detail-skeleton.tsx
+│   │   │   ├── 📄 product-error.tsx
+│   │   │   └── 📄 product-skeleton.tsx
+│   │   ├── 📁 data
+│   │   │   ├── 📄 mock-categories.ts
+│   │   │   └── 📄 mock-products.ts
+│   │   ├── 📁 hooks
+│   │   │   └── 📄 use-products.ts
+│   │   ├── 📁 services
+│   │   │   └── 📄 product-service.ts
+│   │   └── 📁 types
+│   │       └── 📄 product.ts
+│   └── 📁 search
 │       ├── 📁 components
-│       │   ├── 📄 product-card.tsx
-│       │   ├── 📄 product-detail-error.tsx
-│       │   ├── 📄 product-detail-skeleton.tsx
-│       │   ├── 📄 product-error.tsx
-│       │   └── 📄 product-skeleton.tsx
-│       ├── 📁 data
-│       │   ├── 📄 mock-categories.ts
-│       │   └── 📄 mock-products.ts
-│       ├── 📁 hooks
-│       │   └── 📄 use-products.ts
-│       ├── 📁 services
-│       │   └── 📄 product-service.ts
-│       └── 📁 types
-│           └── 📄 product.ts
+│       │   └── 📄 recent-searches.tsx
+│       └── 📁 store
+│           └── 📄 search-store.ts
 ├── 📁 shared
-│   └── 📁 config
-│       ├── 📄 api.ts
-│       ├── 📄 query-client.ts
-│       └── 📄 query-keys.ts
+│   ├── 📁 config
+│   │   ├── 📄 api.ts
+│   │   ├── 📄 query-client.ts
+│   │   └── 📄 query-keys.ts
+│   └── 📁 hook
+│       ├── 📄 use-debounce.ts
+│       └── 📄 use-search.ts
 ├── ⚙️ .gitignore
 ├── 📝 README.md
 ├── ⚙️ app.json
@@ -127,9 +148,8 @@ Feature-based folder structure with a clear separation between services, hooks, 
 ├── 📄 metro.config.js
 ├── ⚙️ package-lock.json
 ├── ⚙️ package.json
+├── 📄 packages.txt
 ├── ⚙️ skills-lock.json
 ├── ⚙️ tsconfig.json
 └── 📄 uniwind-types.d.ts
 ```
-
----

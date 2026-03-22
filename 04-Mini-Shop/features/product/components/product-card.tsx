@@ -1,18 +1,20 @@
 import { router } from "expo-router";
 import { PressableFeedback } from "heroui-native";
+import { memo } from "react";
 import { Image, Text, View } from "react-native";
 import { Product } from "../types/product";
 
 interface ProductCardProps {
   product: Product;
+  onPress?: () => void;
   onAddToCart?: (product: Product) => void;
 }
 
-const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
+const ProductCard = memo(({ product, onPress, onAddToCart }: ProductCardProps) => {
   return (
     <PressableFeedback
       className="flex-1 m-2"
-      onPress={() => router.push(`/product/${product.id}`)}
+      onPress={onPress ?? (() => router.push(`/product/${product.id}`))}
     >
       {/* Image card with overlaid + button */}
       <View className="rounded-2xl overflow-hidden">
@@ -40,6 +42,6 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
       </View>
     </PressableFeedback>
   );
-};
+});
 
 export default ProductCard;

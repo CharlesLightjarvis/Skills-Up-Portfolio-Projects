@@ -1,31 +1,21 @@
-import CategoryFilter from "@/features/category/components/category-filter";
+import { IconSymbol } from "@/components/ui/icon-symbol";
 import ProductCard from "@/features/product/components/product-card";
 import ProductError from "@/features/product/components/product-error";
 import ProductSkeleton from "@/features/product/components/product-skeleton";
 import { useProducts } from "@/features/product/hooks/use-products";
+import RecentSearches from "@/features/search/components/recent-searches";
 import { useSearchStore } from "@/features/search/store/search-store";
 import { useDebounce } from "@/shared/hook/use-debounce";
 import { useSearch } from "@/shared/hook/use-search";
 import { router } from "expo-router";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import { FlatList, PlatformColor, Text, View } from "react-native";
-import { IconSymbol } from "@/components/ui/icon-symbol";
 
-export default function ProductHomeScreen() {
-  const { search } = useSearch();
-  const { addSearch } = useSearchStore();
+export default function SearchScreen() {
+  const { search, isActive } = useSearch();
   const debouncedSearch = useDebounce(search, 300);
-  const [selectedCategory, setSelectedCategory] = useState<
-    string | undefined
-  >();
-  const {
-    data: products,
-    isLoading,
-    error,
-    refetch,
-  } = useProducts(selectedCategory);
-
-  if (error) return <ProductError message={error.message} onRetry={refetch} />;
+  const { addSearch } = useSearchStore();
+  const { data: products, isLoading, error, refetch } = useProducts();
 
   const filtered = useMemo(
     () =>
@@ -55,6 +45,12 @@ export default function ProductHomeScreen() {
     [isLoading],
   );
 
+  if (error) return <ProductError message={error.message} onRetry={refetch} />;
+
+  if (!isActive && !debouncedSearch) {
+    return <RecentSearches />;
+  }
+
   return (
     <FlatList
       className="bg-background flex-1 px-4"
@@ -65,12 +61,6 @@ export default function ProductHomeScreen() {
       data={isLoading ? (Array.from({ length: 6 }) as any[]) : filtered}
       numColumns={2}
       keyExtractor={keyExtractor}
-      ListHeaderComponent={
-        <CategoryFilter
-          selected={selectedCategory}
-          onSelect={setSelectedCategory}
-        />
-      }
       renderItem={renderItem}
       ListEmptyComponent={
         !isLoading ? (

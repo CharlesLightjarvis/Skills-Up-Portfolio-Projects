@@ -1,4 +1,4 @@
-import { Stack } from "expo-router";
+import { router, Stack } from "expo-router";
 
 export default function HomeLayout() {
   return (
@@ -14,6 +14,7 @@ export default function HomeLayout() {
             autoCapitalize: "none",
             obscureBackground: true,
             placement: "automatic",
+            onFocus: () => router.push("/(tabs)/search"),
           },
         }}
       />
