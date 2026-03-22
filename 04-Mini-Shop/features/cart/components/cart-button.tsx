@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useThemeColor } from "heroui-native";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { useCartStore } from "../store/cart-store";
 
 const CartButton = () => {
@@ -10,8 +10,9 @@ const CartButton = () => {
   const totalItems = useCartStore((state) => state.totalItems());
 
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={() => router.push("/cart")}
+      hitSlop={8}
       className="relative pr-2 pt-1 pl-1 pb-1"
     >
       <Ionicons name="bag-handle-outline" size={24} color={accent} />
@@ -29,7 +30,7 @@ const CartButton = () => {
           </Text>
         </View>
       )}
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 
