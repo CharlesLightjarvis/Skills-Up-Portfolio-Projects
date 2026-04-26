@@ -1,0 +1,47 @@
+<?php declare(strict_types=1);
+
+
+
+
+
+
+
+
+namespace PHPUnit\Metadata;
+
+/**
+@immutable
+@no-named-arguments
+
+*/
+final readonly class CoversNamespace extends Metadata
+{
+
+
+
+private string $namespace;
+
+
+
+
+
+protected function __construct(int $level, string $namespace)
+{
+parent::__construct($level);
+
+$this->namespace = $namespace;
+}
+
+public function isCoversNamespace(): true
+{
+return true;
+}
+
+
+
+
+public function namespace(): string
+{
+return $this->namespace;
+}
+}

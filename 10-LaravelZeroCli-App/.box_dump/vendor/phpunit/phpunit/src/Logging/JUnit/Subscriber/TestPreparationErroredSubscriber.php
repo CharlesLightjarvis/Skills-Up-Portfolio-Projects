@@ -1,0 +1,30 @@
+<?php declare(strict_types=1);
+
+
+
+
+
+
+
+
+namespace PHPUnit\Logging\JUnit;
+
+use PHPUnit\Event\InvalidArgumentException;
+use PHPUnit\Event\Test\PreparationErrored;
+use PHPUnit\Event\Test\PreparationErroredSubscriber;
+
+/**
+@no-named-arguments
+
+
+*/
+final readonly class TestPreparationErroredSubscriber extends Subscriber implements PreparationErroredSubscriber
+{
+
+
+
+public function notify(PreparationErrored $event): void
+{
+$this->logger()->testPreparationErrored();
+}
+}

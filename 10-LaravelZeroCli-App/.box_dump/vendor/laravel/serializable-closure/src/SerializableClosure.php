@@ -1,0 +1,126 @@
+<?php
+
+namespace Laravel\SerializableClosure;
+
+use Closure;
+use Laravel\SerializableClosure\Exceptions\InvalidSignatureException;
+use Laravel\SerializableClosure\Serializers\Signed;
+use Laravel\SerializableClosure\Signers\Hmac;
+
+class SerializableClosure
+{
+
+
+
+
+
+protected $serializable;
+
+
+
+
+
+
+
+public function __construct(Closure $closure)
+{
+$this->serializable = Serializers\Signed::$signer
+? new Serializers\Signed($closure)
+: new Serializers\Native($closure);
+}
+
+
+
+
+
+
+public function __invoke()
+{
+return call_user_func_array($this->serializable, func_get_args());
+}
+
+
+
+
+
+
+public function getClosure()
+{
+return $this->serializable->getClosure();
+}
+
+
+
+
+
+
+
+public static function unsigned(Closure $closure)
+{
+return new UnsignedSerializableClosure($closure);
+}
+
+
+
+
+
+
+
+public static function setSecretKey($secret)
+{
+Serializers\Signed::$signer = $secret
+? new Hmac($secret)
+: null;
+}
+
+
+
+
+
+
+
+public static function transformUseVariablesUsing($transformer)
+{
+Serializers\Native::$transformUseVariables = $transformer;
+}
+
+
+
+
+
+
+
+public static function resolveUseVariablesUsing($resolver)
+{
+Serializers\Native::$resolveUseVariables = $resolver;
+}
+
+
+
+
+
+
+public function __serialize()
+{
+return [
+'serializable' => $this->serializable,
+];
+}
+
+
+
+
+
+
+
+
+
+public function __unserialize($data)
+{
+if (Signed::$signer && ! $data['serializable'] instanceof Signed) {
+throw new InvalidSignatureException();
+}
+
+$this->serializable = $data['serializable'];
+}
+}

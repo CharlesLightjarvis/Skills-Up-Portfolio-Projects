@@ -1,0 +1,134 @@
+<?php
+
+namespace Illuminate\Support\Traits;
+
+use BadMethodCallException;
+use Closure;
+use ReflectionClass;
+use ReflectionMethod;
+use RuntimeException;
+use Throwable;
+
+trait Macroable
+{
+
+
+
+
+
+protected static $macros = [];
+
+/**
+@param-closure-this
+
+
+
+
+
+
+
+*/
+public static function macro($name, $macro)
+{
+static::$macros[$name] = $macro;
+}
+
+
+
+
+
+
+
+
+
+
+public static function mixin($mixin, $replace = true)
+{
+$methods = (new ReflectionClass($mixin))->getMethods(
+ReflectionMethod::IS_PUBLIC | ReflectionMethod::IS_PROTECTED
+);
+
+foreach ($methods as $method) {
+if ($replace || ! static::hasMacro($method->name)) {
+static::macro($method->name, $method->invoke($mixin));
+}
+}
+}
+
+
+
+
+
+
+
+public static function hasMacro($name)
+{
+return isset(static::$macros[$name]);
+}
+
+
+
+
+
+
+public static function flushMacros()
+{
+static::$macros = [];
+}
+
+
+
+
+
+
+
+
+
+
+public static function __callStatic($method, $parameters)
+{
+if (! static::hasMacro($method)) {
+throw new BadMethodCallException(sprintf(
+'Method %s::%s does not exist.', static::class, $method
+));
+}
+
+$macro = static::$macros[$method];
+
+if ($macro instanceof Closure) {
+$macro = $macro->bindTo(null, static::class);
+}
+
+return $macro(...$parameters);
+}
+
+
+
+
+
+
+
+
+
+
+public function __call($method, $parameters)
+{
+if (! static::hasMacro($method)) {
+throw new BadMethodCallException(sprintf(
+'Method %s::%s does not exist.', static::class, $method
+));
+}
+
+$macro = static::$macros[$method];
+
+if ($macro instanceof Closure) {
+try {
+$macro = $macro->bindTo($this, static::class) ?? throw new RuntimeException;
+} catch (Throwable) {
+$macro = $macro->bindTo(null, static::class);
+}
+}
+
+return $macro(...$parameters);
+}
+}

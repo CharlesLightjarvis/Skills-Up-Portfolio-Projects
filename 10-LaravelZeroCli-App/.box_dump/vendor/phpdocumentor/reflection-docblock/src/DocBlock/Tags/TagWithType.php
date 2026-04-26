@@ -1,0 +1,50 @@
+<?php
+
+declare(strict_types=1);
+
+
+
+
+
+
+
+
+
+
+namespace phpDocumentor\Reflection\DocBlock\Tags;
+
+use phpDocumentor\Reflection\DocBlock\Tag;
+use phpDocumentor\Reflection\Exception\CannotCreateTag;
+use phpDocumentor\Reflection\Type;
+
+abstract class TagWithType extends BaseTag
+{
+
+protected ?Type $type = null;
+
+
+
+
+public function getType(): ?Type
+{
+return $this->type;
+}
+
+final public static function create(string $body): Tag
+{
+throw new CannotCreateTag('Typed tag cannot be created');
+}
+
+public function __toString(): string
+{
+if ($this->description) {
+$description = $this->description->render();
+} else {
+$description = '';
+}
+
+$type = (string) $this->type;
+
+return $type . ($description !== '' ? ($type !== '' ? ' ' : '') . $description : '');
+}
+}
