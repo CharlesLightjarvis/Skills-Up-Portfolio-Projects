@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => 'openai',
+    'default' => 'groq',
     'default_for_images' => 'openai',
     'default_for_audio' => 'openai',
     'default_for_transcription' => 'openai',
@@ -124,6 +124,7 @@ return [
             'driver' => 'xai',
             'key' => env('XAI_API_KEY'),
         ],
+
     ],
 
 ];

@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Ai\Agents\SalesCoach;
+use App\Ai\Agents\SpecificationRedactorAgent;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
@@ -47,21 +48,25 @@ class AgentCommand extends Command
 
         // return self::SUCCESS;
 
-        //STT
-         $path = storage_path('app/private/tts-sangoku.mp3');
+        // STT
+        // $path = storage_path('app/private/tts-sangoku.mp3');
 
-        if (! file_exists($path)) {
-            $this->error("Fichier introuvable : {$path}");
-            return self::FAILURE;
-        }
+        // if (! file_exists($path)) {
+        //     $this->error("Fichier introuvable : {$path}");
 
-        $transcript = Transcription::fromPath($path)->generate();
+        //     return self::FAILURE;
+        // }
 
-        $this->info('Transcription :');
-        $this->line((string) $transcript);
+        // $transcript = Transcription::fromPath($path)->generate();
 
-        return self::SUCCESS;
+        // $this->info('Transcription :');
+        // $this->line((string) $transcript);
 
+        // return self::SUCCESS;
 
+        $response = (new SpecificationRedactorAgent)->prompt(
+            'Who is Lefa'
+        );
+        $this->info($response->text);
     }
 }

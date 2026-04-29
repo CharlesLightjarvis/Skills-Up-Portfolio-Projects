@@ -10,9 +10,11 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "barryvdh/laravel-dompdf": "^3.1",
         "laravel/ai": "^0.3.2",
         "laravel/framework": "^13.0",
         "laravel/tinker": "^3.0",
+        "nunomaduro/laravel-desktop-notifier": "^2.10",
         "paperdoc-dev/paperdoc-lib": "^0.3.8"
     },
     "require-dev": {
