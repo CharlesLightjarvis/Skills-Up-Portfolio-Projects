@@ -27,7 +27,7 @@
         "APP_NAME": "Laravel Vercel",
         "APP_ENV": "production",
         "APP_DEBUG": "false",
-        "APP_URL": "https://linkshare.vercel.app",
+        "APP_URL": "https://linkshare-nine.vercel.app",
         "APP_KEY": "base64:SCbjXfXOpwMsbtUls0bkF2yCwxzGQIRjoZLxW+v7mDw=",
 
         "APP_CONFIG_CACHE": "/tmp/config.php",
